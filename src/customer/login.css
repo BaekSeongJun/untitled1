@@ -1,0 +1,123 @@
+#login-page-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 280px;
+}
+
+#login-page-container {
+  width: 440px;
+  
+}
+.customer-h1 {
+  text-align: center;
+  padding-top: 76px;
+  margin-bottom: 40px;
+}
+.customer-h1 h1 {
+  font-family: 'Pretendard-Regular', sans-serif;
+}
+
+.login-form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.login-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-input-container input {
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0 52px 0 16px;
+  height: 52px;
+  width: 100%;
+  font-size: 14px;
+  transition: border-color 0.4s;
+}
+.login-input-container input:focus {
+  border-color: #000;
+}
+.login-button {
+  background-color: #2A47BF;
+  width: 100%;
+  color: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+  flex: 1;
+  text-align: center;
+  height: 58px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 3.222em;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-family: 'Pretendard-Regular', sans-serif;
+}
+.other-container {
+  margin: 20px 0;
+  text-align: center;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.other-container div {
+  cursor: pointer;
+}
+/* .other-container a:nth-child(1)::after {
+  width: 1px;
+  content: '';
+  background-color: #000;
+  height: 3px;
+  display: block;
+} */
+.kakao-login {
+  background-color: #FEE500;
+  color: #391B1B;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.kakao-login p{
+  background-image: url(./icon/icon_kakao_02.svg);
+  width: 24px;
+  height: 24px;
+}
+.kakao-login span {
+  font-family: 'Pretendard-Regular', sans-serif;
+}
+
+.naver-login {
+  background-color: #03C75A;
+  color: #ffffff;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.naver-login p {
+  background-image: url(./icon/icon_naver_02.svg);
+  width: 24px;
+  height: 24px;
+}
+.naver-login span {
+  font-family: 'Pretendard-Regular', sans-serif;
+}
+
+#fail-login {
+  text-align: center;
+  color: red;
+}

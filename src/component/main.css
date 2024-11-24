@@ -1,0 +1,146 @@
+.maincontainer {
+
+  width: 1050px;
+  display: flex;
+  /* margin-top: 100px; */
+  margin-bottom: 30px;
+  justify-content: center;  /* Centers the content horizontally */
+  align-items: center;      /* Centers the content vertically */
+  /* border: 1px solid black; */
+}
+.main{
+  width: 1050px;
+  /* height: 20px; */
+}
+
+.mainp {
+  font-size: 50px;
+  justify-self: right;
+  /* Removed justify-items and justify-content, as they don't work for flexbox */
+  border-right: 5px solid black;
+  padding-right: 20px; /* Optional: adds some space between text and border */
+}
+
+.mainp2 {
+  margin-top: 20px;
+  font-size: 45px;
+  text-align: left;  /* Aligns text to the left */
+}
+
+.mainspan {
+  font-size: 32px;
+  text-align: left;  /* Aligns text to the left */
+}
+
+.mainimg {
+  width: 200px;
+  height: 70px;
+  object-fit: contain; /* Ensures the image fits within the given dimensions */
+  align-self: flex-end; /* Aligns the image to the right within the flex container */
+}
+
+.maingrid {
+  /* margin: 50px; */
+  display: grid;
+  height: 150px;
+  grid-template-columns: 350px 700px; /* Defines two columns */
+  gap: 20px; /* Adds space between grid items */
+}
+.option-box {
+  margin-top: 5px;
+  width: 200px;
+  height: 50px;
+  padding: 5px;
+  border-radius: 10px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light gray border */
+  background-color: #fff; /* White background */
+  color: #000; /* Black text color */
+  text-align: center;
+  font-size: 16px;
+  appearance: none; /* Remove default arrow */
+  background-image: url("https://img.icons8.com/ios/50/000000/chevron-down.png"); /* Down arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Position the arrow at the right end */
+  background-size: 15px; /* Size of the arrow */
+}
+.maingrid2 {
+  justify-content: center;
+  justify-self: center;
+  border-radius: 10px;
+  height: 50px;
+  display: grid;
+  width: 700px;
+  /* border: 1px solid black; */
+  grid-template-columns: 50px 250px 50px 200px 100px; /* Defines the columns */
+  /* grid-template-rows: 100px; */
+  gap: 30px; /* Adds space between grid items */
+}
+.option-box:focus {
+  outline: none; /* Removes focus outline */
+  border-color: #888; /* Change border color when focused */
+}
+.maingrid2 img{
+  width: 50px;
+  height: 50px;
+}
+
+.search-subject{
+
+  justify-self: flex-start;
+}
+
+.subject{
+  font-size: 16px;
+  width: 250px;
+  height: 45px;
+}
+.search-button {
+  margin-left: 15px;
+  margin-top: 5px;
+  width: 60px;
+  height: 45px;
+  background-color: white; /* Green background */
+  border: 1px solid #ccc;
+  color: black; /* White text */
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.add-list-button {
+  margin-left: 15px;
+  margin-top: 5px;
+  width: 60px;
+  height: 45px;
+  background-color: white; /* Green background */
+  border: 1px solid #ccc;
+  color: black; /* White text */
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.create-list-button {
+  margin-left: 15px;
+  margin-top: 5px;
+  width: 60px;
+  height: 45px;
+  background-color: white; /* Green background */
+  border: 1px solid #ccc;
+  color: black; /* White text */
+  font-size: 16px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+
+.search-button:hover {
+  background-color: #45a049; /* Darker green when hovered */
+}
+

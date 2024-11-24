@@ -1,0 +1,71 @@
+#signup-page-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signup-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 500px;
+}
+.signup-form-container input {
+  display: block;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0 16px 0 16px;
+  width: 250px;
+  height: 40px;
+  font-size: 14px;
+  transition: border-color 0.4s;
+}
+.signup-form-container input:focus {
+  border-color: #000;
+}
+.password-container {
+  display: flex;
+  gap: 10px;
+}
+.password-container input {
+  width: 250px;
+}
+.password-container div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#warning {
+  color: red;
+  text-align: center;
+}
+.phone-number {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 10px;
+}
+.phone-number select {
+  width: 70px;
+  font-size: 15px;
+}
+.phone-number input {
+  width: 70px;
+  height: 30px;
+  padding: 0 10px 0 10px;
+  text-align: center;
+}
+.phone-number p {
+  font-size: 20px;
+}
+.phone-number p:nth-child(2) {
+  font-size: 16px;
+}
+.signup-form-container span {
+  padding-right: 16px;
+  background: url(./icon/icon_necd.svg) no-repeat right top;
+  background-size: 16px;
+  
+}

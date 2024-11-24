@@ -1,0 +1,372 @@
+#searchresult_main{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#searchresult_title{
+  width: 1200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom:  1px solid black;
+}
+#searchresult_boxmain{
+  width: 1300px;
+  display: flex;
+  align-content: space-evenly;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#searchresult_container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+#searchresult_ul{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  gap: 15px;
+}
+#searchresult_box{
+  width: 300px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: whitesmoke;
+  gap: 20px;
+  margin-top: 20px;
+  border-radius: 7px;
+}
+#searchresult_box img{
+  width: 250px;
+  height: 280px;
+  border-radius: 7px;
+}
+#searchresult_p{
+  color: black;
+}
+
+
+/* 이벤트 */
+
+
+#postResults_container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+#postResults_ul{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  gap: 15px;
+}
+#postResults_box{
+  width: 1200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+#postResults_box2{
+  width: 1200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 40px;
+}
+#postResults_box2 img{
+  width: 550px;
+  height: 135px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-radius: 7px;
+}
+#postResults_box3{
+  width: 600px;
+  height: 100px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  color: black;
+}
+#postResults_detail h4{
+  font-size: 20px;
+}
+#postResults_box4{
+  font-size: 13px;
+  color: rgb(36, 36, 36);
+  font-weight: 800;
+}
+#postResults_box5{
+  color: gray;
+  font-weight: 800;
+}
+#postResults_box0{
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+
+/* 공지사항 */
+
+
+#noticeResults_continer{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#noticeResults_detail{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+#noticeResults_detail2{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+#noticeResults_box{
+  width: 1200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  align-content: space-around;
+  flex-direction: row;
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+#noticeResults_box2{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+#noticeResults_h4{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 5px;
+}
+#noticeResults_h4 h4{
+  width: 90px;
+  height: 30px;
+  font-size: 18px;
+  color:rgb(255, 255, 255);
+  background-color:rgb(36, 60, 132);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height:22.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  border-radius: 5px;
+}
+#noticeResults_b{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#noticeResults_b p{
+  width: 700px;
+  height: 35px;
+  font-size: 18px;
+  color:rgb(48, 48, 48);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  line-height:30.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  font-weight: 600;
+}
+#noticeResults_box3{
+  width: 480px;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  color: black;
+  line-height:30.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  font-weight: 600;
+}
+
+
+/* 사회공헌 */
+
+
+#socialResults_container{
+  width: 1300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+}
+#socialResults_box{
+  width: 320px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  background-color: whitesmoke;
+  gap: 20px;
+  margin-top: 20px;
+  border-radius: 7px;
+}
+#socialResults_box img{
+  width: 300px;
+  height: 300px;
+  border-radius: 7px;
+}
+#socialResults_p{
+  color: black;
+  width: 320px;
+  height: 50px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* QnA */
+
+
+#QnAResults_continer{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#QnAResults_detail{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+}
+#QnAResults_detail2{
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+#QnAResults_box{
+  width: 1200px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  align-content: space-around;
+  flex-direction: row;
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
+#QnAResults_box2{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+#QnAResults_h4{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
+}
+#QnAResults_h4 h4{
+  width: 130px;
+  height: 30px;
+  font-size: 18px;
+  color:rgb(255, 255, 255);
+  background-color:rgb(36, 60, 132);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height:22.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  border-radius: 5px;
+}
+#QnAResults_b{
+  width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+#QnAResults_b p{
+  width: 700px;
+  height: 35px;
+  font-size: 18px;
+  color:rgb(48, 48, 48);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  line-height:30.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  font-weight: 600;
+}
+#QnAResults_box3{
+  width: 450px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: black;
+  line-height:30.1px;
+  vertical-align:baseline;
+  letter-spacing:normal;
+  word-spacing:0px;
+  font-weight: 600;
+}
+
+
+/* 검색바 */
+.custom_input{
+  width: 160px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

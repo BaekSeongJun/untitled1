@@ -1,0 +1,31 @@
+/* Universal reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and border are included in the element's total width/height */
+}
+
+/* App container */
+.App {
+  display: flex;
+  flex-direction: column;  /* Stack header and main content vertically */
+  justify-content: center;  /* Center vertically */
+  align-items: center;  /* Center horizontally */
+  width: 100vw;  /* Full width of the viewport */
+  height: 100vh;  /* Full height of the viewport */
+}
+
+/* Main container */
+#App_Main {
+  display: flex;
+  justify-content: center;  /* Center content horizontally */
+  align-items: center;  /* Center content vertically */
+  width: 100%;
+  flex: 1;  /* Allow this to take up remaining space */
+}
+
+/* Optionally, if you want the Main component to have a specific size */
+.App_Main > * {
+  width: 100%;  /* You can limit the width here, or use a specific pixel value */
+  max-width: 1050px;  /* This will prevent content from growing too large */
+}

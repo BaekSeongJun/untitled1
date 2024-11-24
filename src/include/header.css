@@ -1,0 +1,104 @@
+/* Universal reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and borders are included in the element's total width/height */
+}
+
+/* Header wrapper: Centers the header content */
+#header-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Header container: Contains the logo and navigation items */
+#header-container {
+  margin: 0; /* Remove margin */
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Stack the logo and nav items vertically */
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  height: 80px; /* Adjusted height, change based on content */
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  position: fixed; /* Fixed at the top */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 11;
+}
+
+/* Second menu container */
+#header-second-menu {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  z-index: 16;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Inside-out second menu (navigation items) */
+.header-second-menu-fromInsideOut {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Adjust gap between menu items */
+  margin-top: 10px; /* Adjust space between the menu and container */
+}
+
+/* Styling for individual links in the second menu */
+.header-second-menu-fromInsideOut a {
+  color: #000;
+  text-decoration: none; /* Ensure links don't have underlines */
+}
+
+/* Style for the navigation menu items */
+.nav_menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav_menu img.headerimg {
+  height: 30px; /* Adjust logo size */
+  object-fit: contain; /* Ensure the logo maintains its aspect ratio */
+}
+
+/* Styling for the navigation items */
+.nav_menu span {
+  font-size: 16px; /* Adjust font size */
+  margin: 0 15px; /* Add space around the text */
+}
+
+/* Dropdown menu for nav items (hidden by default) */
+.nav_menu ul {
+  font-size: 14px;
+  position: absolute;
+  top: 30px; /* Space it below the parent menu */
+  left: 0;
+  padding: 0;
+  display: none;
+  text-align: left;
+  width: 250px;
+  z-index: 15;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(-50px); /* Initially positioned off-screen */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show the dropdown menu on hover */
+.nav_menu:hover ul {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
