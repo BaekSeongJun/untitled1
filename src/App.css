@@ -2,30 +2,66 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width/height */
+  box-sizing: border-box;
 }
 
 /* App container */
 .App {
   display: flex;
-  flex-direction: column;  /* Stack header and main content vertically */
-  justify-content: center;  /* Center vertically */
-  align-items: center;  /* Center horizontally */
-  width: 100vw;  /* Full width of the viewport */
-  height: 100vh;  /* Full height of the viewport */
+  flex-direction: column; /* Stack header and main content vertically */
+  justify-content: flex-start; /* Header sticks to the top */
+  align-items: center; /* Center horizontally */
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Prevents scrollbars on resizing */
 }
 
-/* Main container */
+/* App main container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Full width */
+  max-width: 1200px; /* Optional max-width to constrain content */
+  height: 100%; /* Ensure it fills the full height */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+/* Header styling */
+header {
+  width: 100%;
+  position: sticky; /* Keeps header at the top */
+  top: 0; /* Stick to the top of the viewport */
+  z-index: 100; /* Ensure it appears above other content */
+  background-color: white; /* Optional background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Main content area */
 #App_Main {
   display: flex;
-  justify-content: center;  /* Center content horizontally */
-  align-items: center;  /* Center content vertically */
-  width: 100%;
-  flex: 1;  /* Allow this to take up remaining space */
+  flex: 1; /* Take up all remaining space below the header */
+  justify-content: center; /* Center content horizontally */
+  align-items: flex-start; /* Align content to the top */
+  width: 100%; /* Full width */
+  padding: 20px; /* Add spacing around content */
+  margin-top: 300px; /* Add space between header and main content */
+  overflow-y: auto; /* Scroll if content exceeds viewport height */
 }
 
-/* Optionally, if you want the Main component to have a specific size */
-.App_Main > * {
-  width: 100%;  /* You can limit the width here, or use a specific pixel value */
-  max-width: 1050px;  /* This will prevent content from growing too large */
+/* Optional, set specific styling for main components */
+#App_Main > * {
+  width: 100%;
+  max-width: 1050px; /* Limit the content width */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #App_Main {
+    padding: 10px;
+    margin-top: 15px; /* Adjust space for smaller screens */
+  }
+
+  header {
+    padding: 10px;
+  }
 }
