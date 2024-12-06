@@ -8,6 +8,8 @@ const Loadmap = () => {
     const [jobRecommendations, setJobRecommendations] = useState([]);
     const [roadmap, setRoadmap] = useState([]);
     const [researchList, setResearchList] = useState([]);
+    const [startupInfo, setStartupInfo] = useState(null);
+    const [planningInfo, setPlanningInfo] = useState(null);
     const [selectedTech, setSelectedTech] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ left: 0, top: 0 });
     const navigate = useNavigate();
@@ -44,6 +46,8 @@ const Loadmap = () => {
             console.log("로드맵 서버 응답:", response.data);
             setRoadmap(response.data);
             setResearchList([]);  // 연구 목록 초기화
+            setStartupInfo(null); // 창업 정보 초기화
+            setPlanningInfo(null); // 기획 정보 초기화
         } catch (error) {
             console.error("로드맵 데이터를 가져오는 중 오류 발생:", error);
         }
@@ -51,12 +55,43 @@ const Loadmap = () => {
 
     const handleStartupCardClick = async () => {
         try {
-            const response = await axios.get(`http://13.124.165.196:8080/api/startup/tech`);
-            console.log("창업/기획 로드맵 서버 응답:", response.data);
-            setRoadmap(response.data);
+            const techResponse = await axios.get(`http://13.124.165.196:8080/api/startup/tech`);
+            const subjectResponse = await axios.get(`http://13.124.165.196:8080/api/startup/subject`);
+            const certificateResponse = await axios.get(`http://13.124.165.196:8080/api/startup/certificate`);
+            const supportResponse = await axios.get(`http://13.124.165.196:8080/api/startup/support`);
+
+            setRoadmap([]);  // 로드맵 초기화
             setResearchList([]);  // 연구 목록 초기화
+            setPlanningInfo(null); // 기획 정보 초기화
+
+            setStartupInfo({
+                techStack: techResponse.data,
+                relatedSubjects: subjectResponse.data,
+                certificates: certificateResponse.data,
+                supportPrograms: supportResponse.data
+            });
         } catch (error) {
             console.error("창업/기획 데이터를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handlePlanningCardClick = async () => {
+        try {
+            const techResponse = await axios.get(`http://13.124.165.196:8080/api/planning/tech`);
+            const subjectResponse = await axios.get(`http://13.124.165.196:8080/api/planning/subject`);
+            const certificateResponse = await axios.get(`http://13.124.165.196:8080/api/planning/certificate`);
+
+            setRoadmap([]);  // 로드맵 초기화
+            setResearchList([]);  // 연구 목록 초기화
+            setStartupInfo(null); // 창업 정보 초기화
+
+            setPlanningInfo({
+                techStack: techResponse.data,
+                relatedSubjects: subjectResponse.data,
+                certificates: certificateResponse.data,
+            });
+        } catch (error) {
+            console.error("기획 데이터를 가져오는 중 오류 발생:", error);
         }
     };
 
@@ -66,6 +101,8 @@ const Loadmap = () => {
             console.log("연구 목록 서버 응답:", response.data);
             setResearchList(response.data);
             setRoadmap([]);  // 로드맵 초기화
+            setStartupInfo(null); // 창업 정보 초기화
+            setPlanningInfo(null); // 기획 정보 초기화
         } catch (error) {
             console.error("연구 데이터를 가져오는 중 오류 발생:", error);
         }
@@ -170,7 +207,7 @@ const Loadmap = () => {
                         <div className="card" onClick={handleStartupCardClick}>
                             <h3>창업</h3>
                         </div>
-                        <div className="card" onClick={handleStartupCardClick}>
+                        <div className="card" onClick={handlePlanningCardClick}>
                             <h3>기획</h3>
                         </div>
                         <div className="card" onClick={handleResearchCardClick}>
@@ -181,7 +218,7 @@ const Loadmap = () => {
 
                 {roadmap.length > 0 && (
                     <section className="extra-content">
-                    <h2>로드맵</h2>
+                        <h2>로드맵</h2>
                         <div className="roadmap-container">
                             {roadmap.map((tech, index) => (
                                 <div key={tech.techId} className="roadmap-point-container">
@@ -211,6 +248,62 @@ const Loadmap = () => {
                                 >
                                     {index + 1}. {item.name}
                                 </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {startupInfo && (
+                    <section className="extra-content">
+                        <h2>창업 정보</h2>
+                        <h3>기술 스택</h3>
+                        <ul>
+                            {startupInfo.techStack.map((tech, index) => (
+                                <li key={index}>{tech.name}</li>
+                            ))}
+                        </ul>
+                        <h3>관련 과목</h3>
+                        <ul>
+                            {startupInfo.relatedSubjects.map((subject, index) => (
+                                <li key={index}>{subject.name}</li>
+                            ))}
+                        </ul>
+                        <h3>관련 자격증</h3>
+                        <ul>
+                            {startupInfo.certificates.map((cert, index) => (
+                                <li key={index}>{cert.name}</li>
+                            ))}
+                        </ul>
+                        <h3>지원 제도</h3>
+                        <ul>
+                            {startupInfo.supportPrograms.map((program, index) => (
+                                <li key={index}>
+                                    <strong>{program.title}</strong>: {program.content} (지원 기관: {program.supporter})
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {planningInfo && (
+                    <section className="extra-content">
+                        <h2>기획 정보</h2>
+                        <h3>기술 스택</h3>
+                        <ul>
+                            {planningInfo.techStack.map((tech, index) => (
+                                <li key={index}>{tech.name}</li>
+                            ))}
+                        </ul>
+                        <h3>관련 과목</h3>
+                        <ul>
+                            {planningInfo.relatedSubjects.map((subject, index) => (
+                                <li key={index}>{subject.name}</li>
+                            ))}
+                        </ul>
+                        <h3>관련 자격증</h3>
+                        <ul>
+                            {planningInfo.certificates.map((cert, index) => (
+                                <li key={index}>{cert.name}</li>
                             ))}
                         </ul>
                     </section>
