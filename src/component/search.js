@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./main.css";
 import logo from "../1.jpg";
+import axios from "axios";
+import useAsync from "../config/useAsync";
 
-const subjectOptions = [
-    "기초프로젝트랩", "어드벤쳐디자인", "심화프로젝트랩", "종합설계", "창업실습4", "창업실습3",
-    "창업실습2", "창업실습1", "현장실습", "상업논술", "실무프로젝트랩3", "실무프로젝트랩2",
-    "실무프로젝트랩1", "컴퓨터네트워크", "알고리즘응용", "운영체제 및 실습", "데이터베이스",
-    "데이터베이스설계", "데이터과학", "시스템프로그래밍", "논리회로", "AI활용 표현과 문제해결",
-    "AI 소프트웨어", "컴퓨터프로그래밍3", "선형대수", "이산수학", "디지털 VLSI", "분산시스템",
-    "정보보호", "이동통신", "네트워크및웹보안", "인간-컴퓨터 상호작용", "인공지능SoC설계",
-    "딥러닝", "임베디드소프트웨어", "최신컴퓨터특강", "컴퓨터네트워크설계", "소프트웨어및시스템보안",
-    "컴파일러개론", "기계학습", "공개소프트웨어실습", "디지털시스템설계", "소프트웨어공학",
-    "컴퓨터그래픽스", "데이터통신", "전자회로", "영상처리", "프로그래밍언어개론", "수치프로그래밍",
-    "웹프로그래밍", "상업교육론", "디지털신호처리", "계산이론"
-];
+async function getSubject() {
+    const res = await axios.get("http://13.124.165.196:8080/api/subject");
+    console.log(res);
+    return res.data;
+}
 
-const SubjectSearch = () => {
+function SubjectSearch(props) {
     const [searchTerm, setSearchTerm] = useState("");
     const [subjectList, setSubjectList] = useState([]);
     const [filteredSubjects, setFilteredSubjects] = useState([]);
+    const { rdata } = props;
+    const navigate = useNavigate();
 
     useEffect(() => {
         const savedSubjects = localStorage.getItem("subjectList");
@@ -33,12 +30,15 @@ const SubjectSearch = () => {
     };
 
     const handleAddClick = () => {
-        if (searchTerm && !subjectList.includes(searchTerm)) {
-            const updatedList = [...subjectList, searchTerm];
-            setSubjectList(updatedList);
-            saveToLocalStorage(updatedList);
-            setSearchTerm("");
-        } else if (subjectList.includes(searchTerm)) {
+        if (searchTerm && !subjectList.some((subject) => subject.name === searchTerm)) {
+            const newSubject = rdata.find((subject) => subject.name === searchTerm);
+            if (newSubject) {
+                const updatedList = [...subjectList, newSubject];
+                setSubjectList(updatedList);
+                saveToLocalStorage(updatedList);
+                setSearchTerm("");
+            }
+        } else if (subjectList.some((subject) => subject.name === searchTerm)) {
             alert("이미 저장된 과목입니다.");
         }
     };
@@ -50,10 +50,38 @@ const SubjectSearch = () => {
         if (value === "") {
             setFilteredSubjects([]);
         } else {
-            const filtered = subjectOptions.filter((subject) =>
-                subject.toLowerCase().includes(value.toLowerCase())
+            const filtered = rdata.filter((subject) =>
+                subject.name.toLowerCase().includes(value.toLowerCase())
             );
             setFilteredSubjects(filtered);
+        }
+    };
+
+    const handleCompleteClick = async () => {
+        try {
+            // 선택한 과목의 ID 값을 추출하여 payload 생성 (id만 보내도록 수정)
+            const payload = {
+                selectedSubjects: subjectList.map((subject) => subject.id) // ID 값만 추출
+            };
+
+            const response = await axios.post(
+                "http://13.124.165.196:8080/api/job", // 올바른 엔드포인트 확인
+                payload,
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+            console.log("서버 응답:", response.data);
+
+            // 서버에서 받은 데이터를 로컬 스토리지에 저장
+            localStorage.setItem("jobRecommendations", JSON.stringify(response.data));
+
+            // Loadmap 페이지로 이동
+            navigate("/loadmap");
+        } catch (error) {
+            console.error("서버 요청 중 오류 발생:", error);
         }
     };
 
@@ -63,11 +91,12 @@ const SubjectSearch = () => {
                 <div className="maingrid">
                     <p className="mainp">
                         Welcome to
-                        <br/>
-                        <img src={logo} className="mainimg" alt="서비스 로고"/>
+                        <br />
+                        <img src={logo} className="mainimg" alt="서비스 로고" />
                     </p>
                     <p className="mainp2">
-                        Create Preferred subject  <br/>
+                        Create Preferred subject
+                        <br />
                         <span className="mainspan">선호 과목 리스트 생성</span>
                     </p>
                 </div>
@@ -88,11 +117,11 @@ const SubjectSearch = () => {
                                     key={index}
                                     className="autocomplete-item"
                                     onClick={() => {
-                                        setSearchTerm(subject);
+                                        setSearchTerm(subject.name);
                                         setFilteredSubjects([]);
                                     }}
                                 >
-                                    {subject}
+                                    {subject.name}
                                 </li>
                             ))}
                         </ul>
@@ -103,15 +132,26 @@ const SubjectSearch = () => {
                 </button>
                 <ul className="saved-subject-list">
                     {subjectList.map((subject, index) => (
-                        <li key={index}>{subject}</li>
-                    ))}
+                        <li key={index}>{subject.name}</li>
+                        ))}
                 </ul>
-                <Link to="/loadmap" className="complete-button">
+                <button className="complete-button" onClick={handleCompleteClick}>
                     완료
-                </Link>
+                </button>
             </div>
         </div>
-            );
-            };
+    );
+}
 
-            export default SubjectSearch;
+function Search() {
+    const [state] = useAsync(() => getSubject(), []);
+    const { loading, data: rdata, error } = state;
+
+    if (loading) return <div>로딩중입니다.....</div>;
+    if (error) return <div>에러가 발생했습니다.</div>;
+    if (!rdata) return null;
+
+    return <SubjectSearch rdata={rdata} />;
+}
+
+export default Search;

@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "./loadmap.css";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Loadmap = () => {
     const [subjectList, setSubjectList] = useState([]);
+    const [jobRecommendations, setJobRecommendations] = useState([]);
+    const [roadmap, setRoadmap] = useState([]);
+    const [researchList, setResearchList] = useState([]);
+    const [selectedTech, setSelectedTech] = useState(null);
+    const [popupPosition, setPopupPosition] = useState({ left: 0, top: 0 });
     const navigate = useNavigate();
 
     useEffect(() => {
         const savedSubjects = localStorage.getItem("subjectList");
         if (savedSubjects) {
             setSubjectList(JSON.parse(savedSubjects));
+        }
+
+        const savedRecommendations = localStorage.getItem("jobRecommendations");
+        if (savedRecommendations) {
+            setJobRecommendations(JSON.parse(savedRecommendations));
         }
     }, []);
 
@@ -18,27 +29,113 @@ const Loadmap = () => {
     };
 
     const handleAdd = () => {
-        navigate("/search"); // 이전 화면으로 이동
+        navigate("/search");
     };
 
     const handleDelete = (index) => {
-        // 아이템 삭제
         const updatedList = subjectList.filter((_, idx) => idx !== index);
         setSubjectList(updatedList);
-        saveToLocalStorage(updatedList); // 로컬 스토리지에 업데이트
+        saveToLocalStorage(updatedList);
+    };
+
+    const handleCardClick = async (jobId) => {
+        try {
+            const response = await axios.get(`http://13.124.165.196:8080/api/roadmap/${jobId}`);
+            console.log("로드맵 서버 응답:", response.data);
+            setRoadmap(response.data);
+            setResearchList([]);  // 연구 목록 초기화
+        } catch (error) {
+            console.error("로드맵 데이터를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handleStartupCardClick = async () => {
+        try {
+            const response = await axios.get(`http://13.124.165.196:8080/api/startup/tech`);
+            console.log("창업/기획 로드맵 서버 응답:", response.data);
+            setRoadmap(response.data);
+            setResearchList([]);  // 연구 목록 초기화
+        } catch (error) {
+            console.error("창업/기획 데이터를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handleResearchCardClick = async () => {
+        try {
+            const response = await axios.get(`http://13.124.165.196:8080/api/grad/1`);
+            console.log("연구 목록 서버 응답:", response.data);
+            setResearchList(response.data);
+            setRoadmap([]);  // 로드맵 초기화
+        } catch (error) {
+            console.error("연구 데이터를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handleTechClick = async (tech, event) => {
+        try {
+            const pointRect = event.target.getBoundingClientRect();
+            const newPopupPosition = {
+                left: pointRect.left + window.scrollX,
+                top: pointRect.top + window.scrollY,
+            };
+            setPopupPosition(newPopupPosition);
+
+            if (tech.isResearch) {
+                // 연구 관련 데이터를 가져오기
+                const response = await axios.get(
+                    `http://13.124.165.196:8080/api/grad/research?jobId=1&gradId=${tech.techId}`
+                );
+                console.log("연구 상세 데이터 서버 응답:", response.data);
+                setSelectedTech({
+                    techName: tech.techName,
+                    description: response.data[0]?.name, // 연구 상세 데이터의 name만 표시
+                });
+            } else {
+                const techId = tech.techId;
+
+                // 첫 번째 정보: 기술 설명
+                const descriptionResponse = await axios.get(`http://13.124.165.196:8080/api/tech/description/${techId}`);
+                const techDescription = descriptionResponse.data;
+
+                // 두 번째 정보: 하위 기술 목록
+                const subclassResponse = await axios.get(`http://13.124.165.196:8080/api/tech/subclass/${techId}`);
+                const techSubclass = subclassResponse.data;
+
+                // 세 번째 정보: 관련 자격증
+                const certificateResponse = await axios.get(`http://13.124.165.196:8080/api/tech/certificate/${techId}`);
+                const techCertificate = certificateResponse.data;
+
+                // 관련 과목 중복 제거
+                const uniqueRelatedSubjects = [...new Set(tech.relatedSubjects)];
+
+                // 추가 정보와 관련 과목을 담은 오브젝트 생성
+                setSelectedTech({
+                    techName: tech.techName, // 기술 이름
+                    description: techDescription.description, // 기술 설명
+                    subclass: Array.isArray(techSubclass) ? techSubclass : [], // 하위 기술 목록
+                    certificate: Array.isArray(techCertificate) ? techCertificate : [], // 관련 자격증 목록
+                    relatedSubjects: uniqueRelatedSubjects, // 중복 제거된 관련 과목 목록
+                });
+            }
+        } catch (error) {
+            console.error("기술 데이터를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handleClosePopup = () => {
+        setSelectedTech(null);
     };
 
     return (
         <div className="app-container">
             <main className="main-content">
-                {/* 왼쪽 섹션 */}
                 <section className="subject-list">
                     <h2>My Subject List</h2>
                     <div className="subject-container">
                         <ul>
                             {subjectList.map((subject, index) => (
                                 <li key={index} className="subject-item">
-                                    {subject}
+                                    {subject.name}
                                     <button
                                         className="delete-btn"
                                         onClick={() => handleDelete(index)}
@@ -55,37 +152,114 @@ const Loadmap = () => {
                         </div>
                     </div>
                 </section>
-                {/* 중간 섹션 */}
+
                 <section className="recommendations">
-                    <div className="card">
-                        <h3>백엔드 개발자</h3>
-                        <p>
-                            웹 애플리케이션의 서버 측을 개발하는 개발자. 데이터베이스와 서버 로직을
-                            구현하며 Python, Java, Node.js 등을 사용합니다.
-                        </p>
-                        <button className="favorite-btn">♡</button>
-                    </div>
-                    <div className="card">
-                        <h3>데이터베이스 관리자</h3>
-                        <p>간단 설명</p>
-                        <button className="favorite-btn">♡</button>
-                    </div>
-                    <div className="card">
-                        <h3>시스템 관리자</h3>
-                        <p>간단 설명</p>
-                        <button className="favorite-btn">♡</button>
-                    </div>
-                    <div className="card">
-                        <h3>데이터 엔지니어</h3>
-                        <p>간단 설명</p>
-                        <button className="favorite-btn">♡</button>
+                    <h2>추천 직업 목록</h2>
+                    <div className="recommendation-container">
+                        {jobRecommendations.map((job) => (
+                            <div
+                                className="card"
+                                key={job.id}
+                                onClick={() => handleCardClick(job.id)}
+                            >
+                                <h3>{job.name}</h3>
+                                <p>{job.description}</p>
+                            </div>
+                        ))}
+                        {/* 고정된 창업/기획 및 연구 카드 */}
+                        <div className="card" onClick={handleStartupCardClick}>
+                            <h3>창업</h3>
+                        </div>
+                        <div className="card" onClick={handleStartupCardClick}>
+                            <h3>기획</h3>
+                        </div>
+                        <div className="card" onClick={handleResearchCardClick}>
+                            <h3>연구</h3>
+                        </div>
                     </div>
                 </section>
 
-                {/* 오른쪽 섹션 */}
-                <section className="extra-content">
-                    {/* 추가 콘텐츠 영역 */}
-                </section>
+                {roadmap.length > 0 && (
+                    <section className="extra-content">
+                    <h2>로드맵</h2>
+                        <div className="roadmap-container">
+                            {roadmap.map((tech, index) => (
+                                <div key={tech.techId} className="roadmap-point-container">
+                                    <div
+                                        className="roadmap-point"
+                                        onClick={(event) => handleTechClick(tech, event)}
+                                    />
+                                    <div className="roadmap-label">
+                                        {index + 1}. {tech.techName}
+                                    </div>
+                                    {index !== roadmap.length - 1 && <div className="roadmap-connector" />}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {researchList.length > 0 && (
+                    <section className="extra-content">
+                        <h2>연구 목록</h2>
+                        <ul>
+                            {researchList.map((item, index) => (
+                                <li
+                                    key={item.id}
+                                    className="research-item"
+                                    onClick={(event) => handleTechClick({ techId: item.id, techName: item.name, isResearch: true }, event)}
+                                >
+                                    {index + 1}. {item.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+
+                {selectedTech && (
+                    <div
+                        className="tech-popup"
+                        style={{ left: popupPosition.left, top: popupPosition.top }}
+                    >
+                        <div className="tech-popup-content">
+                            <button className="close-btn" onClick={handleClosePopup}>
+                                X
+                            </button>
+                            <h3>{selectedTech.techName}</h3>
+                            <p>{selectedTech.description}</p>
+                            {selectedTech.subclass && selectedTech.subclass.length > 0 && (
+                                <>
+                                    <h4>하위 기술 목록</h4>
+                                    <ul>
+                                        {selectedTech.subclass.map((item, idx) => (
+                                            <li key={idx}>{item.name}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+                            {selectedTech.certificate && selectedTech.certificate.length > 0 && (
+                                <>
+                                    <h4>관련 자격증</h4>
+                                    <ul>
+                                        {selectedTech.certificate.map((cert, idx) => (
+                                            <li key={idx}>{cert.name}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+                            {selectedTech.relatedSubjects && selectedTech.relatedSubjects.length > 0 && (
+                                <>
+                                    <h4>관련 과목</h4>
+                                    <ul>
+                                        {selectedTech.relatedSubjects.map((subject, idx) => (
+                                            <li key={idx}>{subject}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );
