@@ -10,6 +10,7 @@ const Loadmap = () => {
     const [researchList, setResearchList] = useState([]);
     const [startupInfo, setStartupInfo] = useState(null);
     const [planningInfo, setPlanningInfo] = useState(null);
+    const [jobDetail, setJobDetail] = useState(null);
     const [selectedTech, setSelectedTech] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ left: 0, top: 0 });
     const navigate = useNavigate();
@@ -42,14 +43,19 @@ const Loadmap = () => {
 
     const handleCardClick = async (jobId) => {
         try {
-            const response = await axios.get(`http://13.124.165.196:8080/api/roadmap/${jobId}`);
-            console.log("로드맵 서버 응답:", response.data);
-            setRoadmap(response.data);
+            const roadmapResponse = await axios.get(`http://13.124.165.196:8080/api/roadmap/${jobId}`);
+            console.log("로드맵 서버 응답:", roadmapResponse.data);
+            setRoadmap(roadmapResponse.data);
+
+            const jobDetailResponse = await axios.get(`http://13.124.165.196:8080/api/job/${jobId}`);
+            console.log("직업 상세 정보 서버 응답:", jobDetailResponse.data);
+            setJobDetail(jobDetailResponse.data);
+
             setResearchList([]);  // 연구 목록 초기화
             setStartupInfo(null); // 창업 정보 초기화
             setPlanningInfo(null); // 기획 정보 초기화
         } catch (error) {
-            console.error("로드맵 데이터를 가져오는 중 오류 발생:", error);
+            console.error("로드맵 및 직업 데이터를 가져오는 중 오류 발생:", error);
         }
     };
 
@@ -63,6 +69,7 @@ const Loadmap = () => {
             setRoadmap([]);  // 로드맵 초기화
             setResearchList([]);  // 연구 목록 초기화
             setPlanningInfo(null); // 기획 정보 초기화
+            setJobDetail(null); // 직업 상세 정보 초기화
 
             setStartupInfo({
                 techStack: techResponse.data,
@@ -71,7 +78,7 @@ const Loadmap = () => {
                 supportPrograms: supportResponse.data
             });
         } catch (error) {
-            console.error("창업/기획 데이터를 가져오는 중 오류 발생:", error);
+            console.error("창업 데이터를 가져오는 중 오류 발생:", error);
         }
     };
 
@@ -84,6 +91,7 @@ const Loadmap = () => {
             setRoadmap([]);  // 로드맵 초기화
             setResearchList([]);  // 연구 목록 초기화
             setStartupInfo(null); // 창업 정보 초기화
+            setJobDetail(null); // 직업 상세 정보 초기화
 
             setPlanningInfo({
                 techStack: techResponse.data,
@@ -103,6 +111,7 @@ const Loadmap = () => {
             setRoadmap([]);  // 로드맵 초기화
             setStartupInfo(null); // 창업 정보 초기화
             setPlanningInfo(null); // 기획 정보 초기화
+            setJobDetail(null); // 직업 상세 정보 초기화
         } catch (error) {
             console.error("연구 데이터를 가져오는 중 오류 발생:", error);
         }
@@ -233,6 +242,18 @@ const Loadmap = () => {
                                 </div>
                             ))}
                         </div>
+                        {jobDetail && (
+                            <div className="job-detail">
+                                <h3>연봉</h3>
+                                <p>{jobDetail.salary}</p>
+                                <h3>주요 기업</h3>
+                                <ul>
+                                    {jobDetail.majorCompanies.map((company, index) => (
+                                        <li key={index}>{company}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </section>
                 )}
 
