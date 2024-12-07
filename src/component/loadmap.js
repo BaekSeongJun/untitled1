@@ -200,7 +200,7 @@ const Loadmap = () => {
                 </section>
 
                 <section className="recommendations">
-                    <h2>추천 직업 목록</h2>
+                    <h2 className="recommendation-title">추천 직업 목록</h2>
                     <div className="recommendation-container">
                         {jobRecommendations.map((job) => (
                             <div
@@ -227,39 +227,41 @@ const Loadmap = () => {
 
                 {roadmap.length > 0 && (
                     <section className="extra-content">
-                        <h2>로드맵</h2>
+                        {jobDetail && (
+                            <div className="job-detail">
+                                <div className="extra-content-second">
+                                    <h3 className="extra-title">연봉</h3>
+                                    <p style={{marginBottom: 50}}>{jobDetail.salary}</p>
+                                </div>
+                                <div className="extra-content-second">
+                                    <h3 className="extra-title">주요 기업</h3>
+                                    <ul style={{paddingTop: 0}}>
+                                        {jobDetail.majorCompanies.map((company, index) => (
+                                            <li key={index}>{company}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                        <h2 className="extra-title">로드맵</h2>
                         <div className="roadmap-container">
                             {roadmap.map((tech, index) => (
-                                <div key={tech.techId} className="roadmap-point-container">
+                                <div key={tech.techId} className="roadmap-item-container">
                                     <div
-                                        className="roadmap-point"
+                                        className="roadmap-item"
                                         onClick={(event) => handleTechClick(tech, event)}
-                                    />
-                                    <div className="roadmap-label">
-                                        {index + 1}. {tech.techName}
-                                    </div>
-                                    {index !== roadmap.length - 1 && <div className="roadmap-connector" />}
+                                    >{tech.techName}</div>
+                                    <div className="roadmap-item-wrapper"><span className="roadmap-item-number">{index+1}</span></div>
+                                    <div className="roadmap-line"></div>
                                 </div>
                             ))}
                         </div>
-                        {jobDetail && (
-                            <div className="job-detail">
-                                <h3>연봉</h3>
-                                <p>{jobDetail.salary}</p>
-                                <h3>주요 기업</h3>
-                                <ul>
-                                    {jobDetail.majorCompanies.map((company, index) => (
-                                        <li key={index}>{company}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
                     </section>
                 )}
 
                 {researchList.length > 0 && (
-                    <section className="extra-content">
-                        <h2>연구 목록</h2>
+                    <section className="extra-content extra-content-second">
+                        <h2 className="extra-title">관련 연구를 진행 중인 대학원 목록</h2>
                         <ul>
                             {researchList.map((item, index) => (
                                 <li
@@ -267,7 +269,7 @@ const Loadmap = () => {
                                     className="research-item"
                                     onClick={(event) => handleTechClick({ techId: item.id, techName: item.name, isResearch: true }, event)}
                                 >
-                                    {index + 1}. {item.name}
+                                    {item.name}
                                 </li>
                             ))}
                         </ul>
@@ -276,57 +278,71 @@ const Loadmap = () => {
 
                 {startupInfo && (
                     <section className="extra-content">
-                        <h2>창업 정보</h2>
-                        <h3>기술 스택</h3>
-                        <ul>
-                            {startupInfo.techStack.map((tech, index) => (
-                                <li key={index}>{tech.name}</li>
-                            ))}
-                        </ul>
-                        <h3>관련 과목</h3>
-                        <ul>
-                            {startupInfo.relatedSubjects.map((subject, index) => (
-                                <li key={index}>{subject.name}</li>
-                            ))}
-                        </ul>
-                        <h3>관련 자격증</h3>
-                        <ul>
-                            {startupInfo.certificates.map((cert, index) => (
-                                <li key={index}>{cert.name}</li>
-                            ))}
-                        </ul>
-                        <h3>지원 제도</h3>
-                        <ul>
-                            {startupInfo.supportPrograms.map((program, index) => (
-                                <li key={index}>
-                                    <strong>{program.title}</strong>: {program.content} (지원 기관: {program.supporter})
-                                </li>
-                            ))}
-                        </ul>
+                        <h2 className="extra-title">창업 정보</h2>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">기술 스택</h3>
+                            <ul>
+                                {startupInfo.techStack.map((tech, index) => (
+                                    <li key={index}>{tech.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">관련 과목</h3>
+                            <ul>
+                                {startupInfo.relatedSubjects.map((subject, index) => (
+                                    <li key={index}>{subject.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">관련 자격증</h3>
+                            <ul>
+                                {startupInfo.certificates.map((cert, index) => (
+                                    <li key={index}>{cert.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">지원 제도</h3>
+                            <ul>
+                                {startupInfo.supportPrograms.map((program, index) => (
+                                    <li key={index}>
+                                        <strong>{program.title}</strong>: {program.content} (지원 기관: {program.supporter})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </section>
                 )}
 
                 {planningInfo && (
                     <section className="extra-content">
-                        <h2>기획 정보</h2>
-                        <h3>기술 스택</h3>
-                        <ul>
-                            {planningInfo.techStack.map((tech, index) => (
-                                <li key={index}>{tech.name}</li>
-                            ))}
-                        </ul>
-                        <h3>관련 과목</h3>
-                        <ul>
-                            {planningInfo.relatedSubjects.map((subject, index) => (
-                                <li key={index}>{subject.name}</li>
-                            ))}
-                        </ul>
-                        <h3>관련 자격증</h3>
-                        <ul>
-                            {planningInfo.certificates.map((cert, index) => (
-                                <li key={index}>{cert.name}</li>
-                            ))}
-                        </ul>
+                        <h2 className="extra-title">기획 정보</h2>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">기술 스택</h3>
+                            <ul>
+                                {planningInfo.techStack.map((tech, index) => (
+                                    <li key={index}>{tech.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">관련 과목</h3>
+                            <ul>
+                                {planningInfo.relatedSubjects.map((subject, index) => (
+                                    <li key={index}>{subject.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="extra-content-second">
+                            <h3 className="extra-title-second">관련 자격증</h3>
+                            <ul>
+                                {planningInfo.certificates.map((cert, index) => (
+                                    <li key={index}>{cert.name}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </section>
                 )}
 
@@ -337,39 +353,39 @@ const Loadmap = () => {
                     >
                         <div className="tech-popup-content">
                             <button className="close-btn" onClick={handleClosePopup}>
-                                X
+                                <span>X</span>
                             </button>
-                            <h3>{selectedTech.techName}</h3>
-                            <p>{selectedTech.description}</p>
+                            <h3 className="extra-title">{selectedTech.techName}</h3>
+                            <p style={{padding: 10, marginBottom: 30}}>{selectedTech.description}</p>
                             {selectedTech.subclass && selectedTech.subclass.length > 0 && (
-                                <>
-                                    <h4>하위 기술 목록</h4>
-                                    <ul>
+                                <div className="extra-content-second">
+                                    <h4 className="extra-title">하위 기술 목록</h4>
+                                    <ul style={{paddingTop: 0}}>
                                         {selectedTech.subclass.map((item, idx) => (
                                             <li key={idx}>{item.name}</li>
                                         ))}
                                     </ul>
-                                </>
+                                </div>
                             )}
                             {selectedTech.certificate && selectedTech.certificate.length > 0 && (
-                                <>
-                                    <h4>관련 자격증</h4>
-                                    <ul>
+                                <div className="extra-content-second">
+                                    <h4 className="extra-title">관련 자격증</h4>
+                                    <ul style={{paddingTop: 0}}>
                                         {selectedTech.certificate.map((cert, idx) => (
                                             <li key={idx}>{cert.name}</li>
                                         ))}
                                     </ul>
-                                </>
+                                </div>
                             )}
                             {selectedTech.relatedSubjects && selectedTech.relatedSubjects.length > 0 && (
-                                <>
-                                    <h4>관련 과목</h4>
-                                    <ul>
+                                <div className="extra-content-second">
+                                    <h4 className="extra-title">관련 과목</h4>
+                                    <ul style={{paddingTop: 0}}>
                                         {selectedTech.relatedSubjects.map((subject, idx) => (
                                             <li key={idx}>{subject}</li>
                                         ))}
                                     </ul>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
